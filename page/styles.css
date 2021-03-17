@@ -137,7 +137,16 @@ body {
 /* /File picker */
 
 .result {
+    flex-direction: column;
+    display: flex;
+}
+
+.result__canvas {
     max-height: 320px;
+}
+
+.result__actions {
+    margin-top: 12px;
 }
 
 /* Validation */

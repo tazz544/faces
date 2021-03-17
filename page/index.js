@@ -3,6 +3,15 @@
 let faceMatcher = null;
 let notYouDetections = [];
 
+const download = () => {
+    const link = document.createElement('a');
+    const resultCanvasEl = document.getElementById('result');
+    const img = resultCanvasEl.toDataURL('image/png');
+    link.download = 'result.png';
+    link.href = img;
+    link.click();
+}
+
 const updateFinalResult = async () => {
     const resultCanvasEl = document.getElementById('result');
     const {canvasEl, imageEl} = getElementsForSectionIndex(1);

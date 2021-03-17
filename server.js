@@ -15,4 +15,5 @@ app.use(express.static(path.join(__dirname, 'node_modules/stackblur-canvas/dist'
 
 app.get('/', (req) => res.sendFile(pageDir));
 
-app.listen(process.env.port || 3000, () => console.log('Listening on port: 3000'));
+const port = process.env.port || 3000;
+app.listen(port, () => console.log(`Listening on port: ${port}`));

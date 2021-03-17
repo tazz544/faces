@@ -4,6 +4,9 @@
     "start": "node server.js",
     "start:dev": "nodemon server.js"
   },
+  "engines": {
+    "node": "14.7.0"
+  },
   "author": "Krzysztof Drozdowski",
   "license": "ISC",
   "dependencies": {

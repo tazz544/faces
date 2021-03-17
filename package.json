@@ -5,7 +5,8 @@
     "start:dev": "nodemon server.js"
   },
   "engines": {
-    "node": "14.7.0"
+    "node": "14.7.0",
+    "npm": "6.14.7"
   },
   "author": "Krzysztof Drozdowski",
   "license": "ISC",

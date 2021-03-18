@@ -64,6 +64,8 @@ const updateGroup = async () => {
 }
 
 const updateReference = async () => {
+    toggleSection(1, false);
+    toggleSection(2, false);
     const {canvasEl, imageEl} = getElementsForSectionIndex(0);
 
     const results = await detectResults(imageEl, canvasEl);

@@ -43,8 +43,12 @@ const detectResults = async (imageEl, canvasEl) => {
 const toggleSection = (sectionIndex, state) => {
     const sections = document.getElementsByClassName('section');
     const sectionEl = sections[sectionIndex];
+    const imagePreviewEl = sectionEl.getElementsByTagName('img')[0];
     if (sectionEl) {
         sectionEl.style.display = state ? 'flex' : 'none';
+    }
+    if (!state && imagePreviewEl) {
+        imagePreviewEl.src = '';
     }
 }
 

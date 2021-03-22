@@ -1,7 +1,5 @@
 'use strict';
 
-const faceDetectorOptions = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 });
-
 /**
  * Returns image and canvas HTML elements
  * @param sectionIndex: number
@@ -9,30 +7,14 @@ const faceDetectorOptions = new faceapi.SsdMobilenetv1Options({ minConfidence: 0
  */
 const getElementsForSectionIndex = (sectionIndex) => {
     const sectionEl = document.getElementsByClassName('section')[sectionIndex];
+    const fileInputEl = sectionEl.getElementsByTagName('input')[0];
     const canvasEl = sectionEl.getElementsByTagName('canvas')[0];
     const imageEl = sectionEl.getElementsByTagName('img')[0];
     return {
+        fileInputEl,
         canvasEl,
         imageEl
     }
-}
-
-/**
- * Returns face detections
- * @param imageEl: HTMLElement
- * @param canvasEl: HTMLElement
- * @returns {Promise<FaceDetection[]>}
- */
-const detectResults = async (imageEl, canvasEl) => {
-    const context = canvasEl.getContext('2d');
-    context.clearRect(0, 0, canvasEl.width, canvasEl.height);
-
-    const results = await faceapi
-        .detectAllFaces(imageEl, faceDetectorOptions)
-        .withFaceLandmarks()
-        .withFaceDescriptors();
-    faceapi.matchDimensions(canvasEl, imageEl);
-    return results;
 }
 
 /**

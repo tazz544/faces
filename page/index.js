@@ -3,6 +3,9 @@
 let faceMatcher = null;
 let notYouDetections = [];
 
+/**
+ * Downloads result
+ */
 const download = () => {
     const link = document.createElement('a');
     const resultCanvasEl = document.getElementById('result');
@@ -12,6 +15,10 @@ const download = () => {
     link.click();
 }
 
+/**
+ * Updates final result
+ * @returns {Promise<void>}
+ */
 const updateFinalResult = async () => {
     const resultCanvasEl = document.getElementById('result');
     const {canvasEl, imageEl} = getElementsForSectionIndex(1);
@@ -40,6 +47,10 @@ const updateFinalResult = async () => {
     img.src = imageEl.src;
 }
 
+/**
+ * Updates group photo
+ * @returns {Promise<boolean>}
+ */
 const updateGroup = async () => {
     const {canvasEl, imageEl} = getElementsForSectionIndex(1);
     notYouDetections = [];
@@ -50,12 +61,16 @@ const updateGroup = async () => {
     if (isValid) {
         const resizedResults = faceapi.resizeResults(results, imageEl);
         resizedResults.forEach(({ detection, descriptor }) => {
-            const label = faceMatcher.findBestMatch(descriptor).toString();
-            const options = { label: label.includes('unknown') ? 'Not you' : 'You (probably)' };
-            const drawBox = new faceapi.draw.DrawBox(detection.box, options);
+            let label = faceMatcher.findBestMatch(descriptor).toString();
             if (label.includes('unknown')) {
                 notYouDetections.push(detection);
+                label = 'Not you';
+            } else {
+                label = 'You (probably)';
             }
+            const options = { label };
+            const drawBox = new faceapi.draw.DrawBox(detection.box, options);
+
             drawBox.draw(canvasEl);
         });
         await updateFinalResult();
@@ -63,6 +78,10 @@ const updateGroup = async () => {
     return isValid;
 }
 
+/**
+ * Updates reference
+ * @returns {Promise<boolean>}
+ */
 const updateReference = async () => {
     toggleSection(1, false);
     toggleSection(2, false);
@@ -83,16 +102,20 @@ const updateReference = async () => {
     return isValid;
 }
 
+/**
+ * Set observer on input change
+ * @param sectionIndex
+ * @param updateFunction
+ * @returns {Promise<void>}
+ */
 const observeFileInput = async (sectionIndex, updateFunction) => {
-    const sectionEl = document.getElementsByClassName('section')[sectionIndex];
-    const fileInputEl = sectionEl.getElementsByTagName('input')[0];
-    const imagePreviewEl = sectionEl.getElementsByTagName('img')[0];
+    const {fileInputEl, imageEl} = getElementsForSectionIndex(sectionIndex);
     fileInputEl.onchange = async () => {
         if (fileInputEl.files && fileInputEl.files.length > 0) {
             toggleLoader(true, `Processing image...`);
             const file = fileInputEl.files[0];
             const image = await faceapi.bufferToImage(file);
-            imagePreviewEl.src = image.src;
+            imageEl.src = image.src;
             const isValid = await updateFunction();
             toggleSection(sectionIndex + 1, isValid);
             toggleLoader(false);
@@ -100,14 +123,14 @@ const observeFileInput = async (sectionIndex, updateFunction) => {
     }
 }
 
+/**
+ * Init
+ * @returns {Promise<void>}
+ */
 const init = async () => {
     observeFileInput(0, updateReference);
     observeFileInput(1, updateGroup);
-    toggleLoader(true, 'Loading model...');
-    await faceapi.nets.ssdMobilenetv1.load('/');
-    await faceapi.loadFaceLandmarkModel('/');
-    await faceapi.loadFaceRecognitionModel('/');
-    toggleLoader(false);
+    await loadDetector();
     setTimeout(() => toggleSection(0, true), 500);
 }
 

@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Assigns validation errors to validation element
+ * @param sectionIndex
+ * @param validationErrorsArray
+ */
 const updateValidationErrors = (sectionIndex, validationErrorsArray) => {
     const sectionEl = document.getElementsByClassName('section')[sectionIndex];
     const validationEl = sectionEl.getElementsByClassName('validation')[0];
@@ -10,6 +15,11 @@ const updateValidationErrors = (sectionIndex, validationErrorsArray) => {
     validationEl.innerHTML = elements;
 }
 
+/**
+ * Validates group photo
+ * @param results
+ * @returns {boolean}
+ */
 const validateGroup = (results) => {
     const validationErrors = [];
     if (!results.length) {
@@ -22,6 +32,11 @@ const validateGroup = (results) => {
     return validationErrors.length === 0;
 }
 
+/**
+ * Validates reference photo
+ * @param results
+ * @returns {boolean}
+ */
 const validateReference = (results) => {
     const validationErrors = [];
     if (!results.length) {

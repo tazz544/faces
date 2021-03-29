@@ -7,8 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const pageDir = path.join(__dirname, 'page');
-app.use(express.static(path.join(__dirname, 'page')));
-app.use(express.static(path.join(__dirname, 'images')));
+app.use(express.static(pageDir));
 app.use(express.static(path.join(__dirname, 'weights')));
 app.use(express.static(path.join(__dirname, 'node_modules/face-api.js/dist')));
 app.use(express.static(path.join(__dirname, 'node_modules/stackblur-canvas/dist')));

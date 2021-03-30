@@ -11,6 +11,7 @@ const getElementsForSectionIndex = (sectionIndex) => {
     const canvasEl = sectionEl.getElementsByTagName('canvas')[0];
     const imageEl = sectionEl.getElementsByTagName('img')[0];
     return {
+        sectionEl,
         fileInputEl,
         canvasEl,
         imageEl
@@ -23,8 +24,7 @@ const getElementsForSectionIndex = (sectionIndex) => {
  * @param state: boolean
  */
 const toggleSection = (sectionIndex, state) => {
-    const sections = document.getElementsByClassName('section');
-    const sectionEl = sections[sectionIndex];
+    const {sectionEl} = getElementsForSectionIndex(sectionIndex);
     const imagePreviewEl = sectionEl.getElementsByTagName('img')[0];
     if (sectionEl) {
         sectionEl.style.display = state ? 'flex' : 'none';

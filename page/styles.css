@@ -22,9 +22,9 @@ body {
 }
 
 .wrapper {
-    padding: 0 0.9375rem 0 0.9375rem;
     justify-content: center;
     flex-direction: column;
+    padding: 0 0.9375rem;
     align-items: center;
     max-width: 67.75rem;
     position: relative;

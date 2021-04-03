@@ -41,7 +41,8 @@ const updateFinalResult = async () => {
                 Math.floor(box.y),
                 Math.floor(box.width),
                 Math.floor(box.height),
-                12);
+                12
+            );
         })
     }
     img.src = imageEl.src;
